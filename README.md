@@ -1,86 +1,48 @@
-# paper-piano
-capacitive sensing and arduino based small project
-// Import the CapacitiveSensor Library.
-#include <CapacitiveSensor.h>
-
+PAPER PIANO
+Overview: Producing sound of different frequencies using Arduino and Capacitive Sensing.
+ Materials required : 
+1.	Metal wires
+2.	Arduino(UNO)
+3.	breadboard
+4.	Speaker( 5W)
+5.	Paper clips
+6.	Cardboard
 
  
-#define speaker 11
+  
+   
+  
+  
+   
+   
+  
+ 
+
+ 
+
+Procedure: 
+•	Assemble the circuit according to this circuit diagram. 
+•	Download the Capacitive Sensing libraries from playground.arduino.cc/Main/CapacitiveSensor?from=Main.CapSense
+•	 Import the CapacitiveSensor.h header file into your Arduino syntax.
+•	Define a speaker into your Arduino syntax by:
+o	#define speaker 11
+•	Set the Send Pins & Receive Pins for all the keys using CapacitiveSensor variables. For example:-
+o	CapacitiveSensor   cs_2_3 = CapacitiveSensor(2,3);
+•	Set some sample threshold values for each sensor above which the speaker will play a tone.
+•	Upload the syntax onto the Arduino.
+•	Open the serial monitor and check how high values for each key are being shown while touching the keys and while not touching the graphite keys.
+•	According to these values, change the threshold values to values which are only exceeded when the keys are touched as the values will always be greater when the keys are touched since the capacitance and therefore time constant increases.
+•	Upload the syntax onto the Arduino and then your paper piano device must be ready.
+
+Working:
+Each of the keys is a part of a series RC circuit and when you touch any of the keys, the capacitance in the circuit increases due to which the time constant values of the circuit increases and the syntax which is governed by the time constants instructs the speaker to play sounds of particular frequencies when the time constant values exceed a certain value. The frequency played by each key would be different.
+
+Difficulties:
+•	Making tight and steady connections in the bread board can be challenging and sometimes wires may fall off.
+•	Debugging the syntax according to the serial monitor values can be time consuming. 
+•	One shall stay safe and keep all the dangers in mind while soldering the final Printed Circuit Board (PCB).
 
 
-// Set the Send Pin & Receive Pin.
-CapacitiveSensor   cs_2_3 = CapacitiveSensor(2,3);        
-CapacitiveSensor   cs_2_4 = CapacitiveSensor(2,4);         
-CapacitiveSensor   cs_2_5 = CapacitiveSensor(2,5);     
-CapacitiveSensor   cs_2_6 = CapacitiveSensor(2,6);     
-CapacitiveSensor   cs_2_7 = CapacitiveSensor(2,7);      
-CapacitiveSensor   cs_2_8 = CapacitiveSensor(2,8);         
-CapacitiveSensor   cs_2_9 = CapacitiveSensor(2,9);  
-CapacitiveSensor   cs_2_10 = CapacitiveSensor(2,10);  
-void setup() 
-{
-  cs_2_6.set_CS_AutocaL_Millis(0xFFFFFFFF);     // turn off autocalibrate on channel 1 - just as an example
-  
-  // Arduino start communicate with computer.
-  Serial.begin(9600);
-}
 
 
-void loop() {
-   // Set a timer.
-  long start = millis();
-  
-  // Set the sensitivity of the sensors.
-  long total1 =  cs_2_3.capacitiveSensor(3000);
-  long total2 =  cs_2_4.capacitiveSensor(3000);
-  long total3 =  cs_2_5.capacitiveSensor(3000);
-  long total4 =  cs_2_6.capacitiveSensor(3000);
-  long total5 =  cs_2_7.capacitiveSensor(3000);
-  long total6 =  cs_2_8.capacitiveSensor(3000);
-  long total7 =  cs_2_9.capacitiveSensor(3000);
-  long total8 =  cs_2_10.capacitiveSensor(3000);
-  
 
-
-  Serial.print(millis() - start);        // check on performance in milliseconds
-  Serial.print("\t");                    // tab character for debug windown spacing
-
-  Serial.print(total1);                  // print sensor output 1
-  Serial.print("\t");                    // Leave some space before print the next output
-  Serial.print(total2);                  // print sensor output 2
-  Serial.print("\t");                    // Leave some space before print the next output
-  Serial.print(total3);                  // print sensor output 3
-  Serial.print("\t");                    // Leave some space before print the next output
-  Serial.print(total4);                  // print sensor output 4
-  Serial.print("\t");                    // Leave some space before print the next output
-  Serial.print(total5);                  // print sensor output 5
-  Serial.print("\t");                    // Leave some space before print the next output
-  Serial.print(total6);                  // print sensor output 6
-  Serial.print("\t");                    // Leave some space before print the next output
-  Serial.print(total7);                   // print sensor output 7
-                                          // Leave some space before print the next output
-  Serial.print("\t");
-  Serial.println(total8);                 // print sensor output 8
-                                         // "println" - "ln" represent as "line", system will jump to next line after print the output.
-  
-  
-  
-  
-  // When hand is touched the sensor, the speaker will produce a tone.
-  // I set a threshold for it, so that the sensor won't be too sensitive.
-  // Adjust the threshold according to your convenience using and comparing the values through serial monitor.
-  if (total1 > 9000) tone(speaker,131);   // frequency
-  if (total2 > 10000) tone(speaker,147);   // you can see https://www.arduino.cc/en/Tutorial/toneMelody if you want to change frequency
-  if (total3 > 10000) tone(speaker,165);
-  if (total4 > 10000) tone(speaker,175);
-  if (total5 > 10000) tone(speaker,196);
-  if (total6 > 10000) tone(speaker,220);
-  if (total7 > 10000) tone(speaker,247);
-  if (total8 > 10000) tone(speaker,262);
-  
-  // When hand didn't touch on it, no tone is produced.
-  if (total1<=9000  &  total2<=10000  &  total3<=10000 & total4<=10000  &  total5<=10000 &  total6<=10000&  total7<=10000 &  total8<=10000)
-    noTone(speaker);
-delay(10);
-                               // arbitrary delay to limit data to serial port 
-}
