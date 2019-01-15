@@ -1,5 +1,8 @@
-PAPER PIANO
+# PAPER PIANO
+
 Overview: Producing sound of different frequencies using Arduino and Capacitive Sensing.
+ 
+ 
  Materials required : 
 1.	Metal wires
 2.	Arduino(UNO)
